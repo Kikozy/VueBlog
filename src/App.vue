@@ -1,7 +1,4 @@
 <script setup lang="ts">
-import Tags from './views/Tags/index.vue'
-
-
 </script>
 
 <template>
@@ -18,7 +15,8 @@ import Tags from './views/Tags/index.vue'
   </div>
 </template>
 
-<style scoped>
+<style lang="scss">
+
 .page {
   margin: auto;
   max-width: 1200px;
