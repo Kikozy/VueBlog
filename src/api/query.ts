@@ -8,7 +8,7 @@ const pageSize = 10
 const filter = ''
 
 
-interface issuesSearchReq {
+export interface issuesSearchReq {
     page?: number
     pageSize?: number
     state?: string
@@ -28,16 +28,25 @@ interface Milestone {
 export interface Card {
     title: string
     state: string
+    number: number
     created_at: string
     updated_at: string
     labels: Array<Tag>
     milestone: Milestone
+}
+export interface Article extends Card {
+    body: string
 }
 
 
 //~ 查询issues列表
 export async function queryIssuesList(params?: issuesSearchReq) {
     return (await http.get(`/Kikozy/TestBlog/issues`, { params }))
+}
+
+//? 查看单独的Issues详情
+export async function queryIssuesContent(articleId: string): Promise<Article> {
+    return (await http.get(`/Kikozy/TestBlog/issues/${articleId}`))
 }
 
 //~ 查询文档标签
