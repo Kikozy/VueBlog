@@ -1,16 +1,34 @@
 <script setup lang="ts">
-import { queryDocList, queryDocTags, queryDocSort } from './api/query'
-import Tags from './views/Tags/index.vue';
+import Tags from './views/Tags/index.vue'
 
-// queryDocList().then(res => console.log('文档列表', res))
-// queryDocTags().then(res => console.log('文档标签', res))
-// queryDocSort().then(res => console.log('文档分类', res))
 
 </script>
 
 <template>
-    <Tags></Tags>
+  <div class="page">
+    <nav class="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/About">About</router-link> |
+      <!-- <router-link to="/">Home</router-link> | -->
+    </nav>
+    <main class="content-core">
+      <router-view></router-view>
+    </main>
+    <footer></footer>
+  </div>
 </template>
 
 <style scoped>
+.page {
+  margin: auto;
+  max-width: 1200px;
+}
+
+.nav {
+  background-color: rgb(202, 109, 109, 0.6);
+}
+
+.content-core {
+  max-width: 1200px;
+}
 </style>

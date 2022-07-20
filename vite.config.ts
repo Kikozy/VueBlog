@@ -11,6 +11,7 @@ export default defineConfig({
       '@api': resolve(__dirname, './src/api'),
       '@util': resolve(__dirname, './src/utils'),
       '@comp': resolve(__dirname, './src/components'),
+      '@view': resolve(__dirname, './src/views')
     }
   },
 })

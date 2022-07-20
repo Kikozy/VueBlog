@@ -1,14 +1,24 @@
 <script setup lang="ts">
+import { queryIssuesList } from '@api/query'
+
 
 const props = defineProps<{
   name: string,
-  color: string,
-  link: string
+  color?: string,
+  link?: string
 }>()
+
+/**
+ * 
+ * @param tagName tag的名字
+*/
+function handelChooseTag(tagName: string) {
+  queryIssuesList({ labels: tagName })
+}
 
 </script>
 <template>
-  <span class="tag-item" :style="{ color: `#${props.color}` }">
+  <span class="tag-item" :style="{ color: `#${props.color}` }" @click="handelChooseTag(props.name)">
     {{ props.name }}
   </span>
 </template>

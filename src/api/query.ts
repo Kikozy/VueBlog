@@ -8,9 +8,36 @@ const pageSize = 10
 const filter = ''
 
 
-//~ 查询文档列表
-export async function queryDocList() {
-    return (await http.get(`/Kikozy/TestBlog/issues`))
+interface issuesSearchReq {
+    page?: number
+    pageSize?: number
+    state?: string
+    labels?: string //tag
+}
+//Tag结构
+interface Tag {
+    name: string
+    color: string
+}
+// 文件分类结构
+interface Milestone {
+    title: string
+}
+
+//卡片结构
+export interface Card {
+    title: string
+    state: string
+    created_at: string
+    updated_at: string
+    labels: Array<Tag>
+    milestone: Milestone
+}
+
+
+//~ 查询issues列表
+export async function queryIssuesList(params?: issuesSearchReq) {
+    return (await http.get(`/Kikozy/TestBlog/issues`, { params }))
 }
 
 //~ 查询文档标签
