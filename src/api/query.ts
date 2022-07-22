@@ -25,7 +25,7 @@ interface Milestone {
 }
 
 //卡片结构
-export interface Card {
+export interface ArticleCardStruc {
     title: string
     state: string
     number: number
@@ -34,7 +34,7 @@ export interface Card {
     labels: Array<Tag>
     milestone: Milestone
 }
-export interface Article extends Card {
+export interface Article extends ArticleCardStruc {
     body: string
 }
 
