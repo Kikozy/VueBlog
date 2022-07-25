@@ -16,10 +16,10 @@
 </template>
 
 <style lang="scss">
-
 .page {
   margin: auto;
   max-width: 1200px;
+
 }
 
 .nav {
@@ -28,5 +28,6 @@
 
 .content-core {
   max-width: 1200px;
+  height: 100vh;
 }
 </style>
