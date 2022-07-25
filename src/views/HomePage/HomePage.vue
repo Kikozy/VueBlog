@@ -24,9 +24,9 @@ onMounted(() => {
 
 <template>
   <div class="article-list">
-    <div class="list">
-      <article-card v-for="cardItem of state.cardList" :article-card-state="cardItem" :key="cardItem.number" />
-    </div>
+    <article-card v-for="cardItem of state.cardList" :article-card-state="cardItem" :key="cardItem.number" />
+
+
   </div>
 
 
