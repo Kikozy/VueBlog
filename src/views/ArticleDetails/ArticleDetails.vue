@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive, render, setTransitionHooks, shallowRef } from 'vue'
+import { onMounted, reactive, render, setTransitionHooks, shallowRef } from 'vue'
 import { useRoute } from 'vue-router'
 import { marked } from 'marked'
 import lightCode from 'highlight.js'
@@ -7,18 +7,36 @@ import 'highlight.js/styles/foundation.css'
 import "highlight.js/styles/atom-one-dark.css"
 
 import { queryIssuesContent } from '@api/query'
+import 'gitalk/dist/gitalk.css'
+import Gitalk from 'gitalk'
+
 
 const route = useRoute()
 
 const articleState = reactive({
-  articleId: route.params.id as string,
-  body: '',
-  imgCount: 0
+  title: '',//文章标题
+  articleId: route.params.id as string,//文章ID
+  body: '',//文章内容
+  imgCount: 0,//图片计数
 })
 const markdownToHtml = shallowRef('')
 queryIssuesContent(articleState.articleId).then((res) => {
   articleState.body = res.body
+  articleState.title = res.title
   markdownToHtml.value = marked(res.body)
+  console.error(articleState.title)
+  const gitalk = new Gitalk({
+    clientID: '8b668e751557fa12e756',
+    clientSecret: 'd53f9164f3903a88da2a59423ab4a5115826da22',
+    repo: 'test-blog-comment',
+    owner: 'Kikozy',
+    admin: ['Kikozy'],
+    language: 'zh-CN',
+    distractionFreeMode: false,
+    title: articleState.title,
+    labels: ['评论'],
+  })
+  gitalk.render('gitalk-container')
 })
 
 //创建MD渲染器
@@ -27,15 +45,15 @@ const rendererMD = new marked.Renderer()
 rendererMD.image = (href, text) => {
   let imgId = 'img' + ++articleState.imgCount
   let tempImg = new Image()
-  // tempImg.src = href ? href : ''
-  // tempImg.onload = function () {
-  //   let dom_img = document.querySelector(`#${imgId}`) as HTMLImageElement
-  //   let dom_loading = document.querySelector(`#${imgId}-loading`) as HTMLDivElement
-  //   dom_loading.style.display = "none"
-  //   dom_img.src = href!
-  //   dom_img.style.opacity = "1"
-  //   console.log('我已载入', dom_img)
-  // }
+  tempImg.src = href ? href : ''
+  tempImg.onload = function () {
+    let dom_img = document.querySelector(`#${imgId}`) as HTMLImageElement
+    let dom_loading = document.querySelector(`#${imgId}-loading`) as HTMLDivElement
+    dom_loading.style.display = "none"
+    dom_img.src = href!
+    dom_img.style.opacity = "1"
+    console.log('我已载入', dom_img)
+  }
   return `
     <div class="img-box">
       <div id="${imgId}-loading" class="img-loading"></div>
@@ -80,24 +98,27 @@ marked.setOptions({
 })
 
 
+
+onMounted(() => {
+
+})
+
+
+
 </script>
 
 <template>
   <div class="articleDetails">
     <div v-html="markdownToHtml" class="markdown-body"></div>
   </div>
+  <div>
+    <!-- 评论 -->
+    <div id="gitalk-container"></div>
+  </div>
 </template>
 
 
 <style lang="scss">
-// @import '../../assets/onedark.min.css';
-
-// .articleDetails {
-//   height: 100%;
-//   width: 100%;
-//   background-color: rgb(35, 39, 46);
-// }
-
 // 引用 > 样式
 .quote-md {
   margin: 0;
@@ -203,6 +224,6 @@ marked.setOptions({
   margin: 100px auto;
   height: 32px;
   width: 32px;
-  background-image: url("../../assets/atom-one-dark.min.css");
+  background-image: url("../../assets/loading.gif");
 }
 </style>
