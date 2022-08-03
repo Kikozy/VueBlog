@@ -41,7 +41,7 @@ export interface Article extends ArticleCardStruc {
 
 //~ 查询issues列表
 export async function queryIssuesList(params?: issuesSearchReq) {
-    return (await http.get(`/Kikozy/TestBlog/issues`, { params }))
+    return (await http.get(`/${blog}/issues`, { params }))
 }
 
 //? 查看单独的Issues详情

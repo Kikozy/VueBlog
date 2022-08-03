@@ -3,21 +3,18 @@ import { onMounted, reactive, render, setTransitionHooks, shallowRef } from 'vue
 import { useRoute } from 'vue-router'
 import { marked } from 'marked'
 import lightCode from 'highlight.js'
-import 'highlight.js/styles/foundation.css'
-import "highlight.js/styles/atom-one-dark.css"
 
 import { queryIssuesContent } from '@api/query'
 import 'gitalk/dist/gitalk.css'
 import Gitalk from 'gitalk'
 
-
 const route = useRoute()
 
 const articleState = reactive({
-  title: '',//文章标题
-  articleId: route.params.id as string,//文章ID
-  body: '',//文章内容
-  imgCount: 0,//图片计数
+  title: '', //文章标题
+  articleId: route.params.id as string, //文章ID
+  body: '', //文章内容
+  imgCount: 0, //图片计数
 })
 const markdownToHtml = shallowRef('')
 queryIssuesContent(articleState.articleId).then((res) => {
@@ -49,9 +46,9 @@ rendererMD.image = (href, text) => {
   tempImg.onload = function () {
     let dom_img = document.querySelector(`#${imgId}`) as HTMLImageElement
     let dom_loading = document.querySelector(`#${imgId}-loading`) as HTMLDivElement
-    dom_loading.style.display = "none"
+    dom_loading.style.display = 'none'
     dom_img.src = href!
-    dom_img.style.opacity = "1"
+    dom_img.style.opacity = '1'
     console.log('我已载入', dom_img)
   }
   return `
@@ -79,12 +76,10 @@ rendererMD.codespan = (code) => {
   return `<code class="code-md">${code}</code>`
 }
 rendererMD.code = function (code, infostring) {
-  let lang = infostring ? infostring : ''
-  console.log('这是什么呀',)
-  let colorCode = this.options.highlight(code, lang)
-  return `<pre><code class="${this!.options.langPrefix + lang
-    }">${colorCode}</code>`
-
+  // let lang = infostring ? infostring : ''
+  // console.log('这是什么呀', code)
+  let colorCode = (this as any).options.highlight(code, infostring)
+  return `<pre class="code-area-md"><code >${colorCode}</code>`
 }
 
 marked.setOptions({
@@ -93,18 +88,12 @@ marked.setOptions({
   sanitize: true, //对输出进行过滤（清理）
   smartLists: true,
   smartypants: true, //使用更为时髦的标点，比如在引用语法中加入破折号。
-  langPrefix: "hljs language-javascript",
   highlight: (code) => lightCode.highlightAuto(code).value,
 })
 
-
-
 onMounted(() => {
-
+  console.log(document.querySelectorAll('.code-area-md span'))
 })
-
-
-
 </script>
 
 <template>
@@ -117,24 +106,28 @@ onMounted(() => {
   </div>
 </template>
 
-
 <style lang="scss">
+@import 'highlight.js/styles/atom-one-dark.css';
+
+body {
+  background-color: rgb(24, 24, 28);
+}
 // 引用 > 样式
 .quote-md {
   margin: 0;
   padding: 30px 10px;
-  background-color: #DDDDDD;
+  // background-color: #dddddd;
   position: relative;
 
   &::before {
-    content: "<";
+    content: '<';
     position: absolute;
     top: 3px;
     left: 5px;
   }
 
   &::after {
-    content: ">";
+    content: '>';
     position: absolute;
     bottom: 3px;
     right: 5px;
@@ -151,7 +144,7 @@ onMounted(() => {
 
   //下划线
   &::before {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     bottom: -1px;
@@ -173,7 +166,7 @@ onMounted(() => {
     color: #cad2c5;
     font-size: 12px;
     white-space: nowrap;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     opacity: 0;
     transition: 0.2s;
     transform: scaleY(0);
@@ -194,7 +187,7 @@ onMounted(() => {
 
   //背景色效果
   &:hover {
-    background-color: #DDDDDD;
+    background-color: #dddddd;
   }
 }
 
@@ -202,8 +195,11 @@ onMounted(() => {
 .code-md {
   border-radius: 3px;
   padding: 3px;
-  background-color: rgb(223, 225, 229);
   color: $linkTagColor;
+}
+//
+.code-area-md {
+  background-color: rgb(35, 39, 46) !important;
 }
 
 .img-box {
@@ -224,6 +220,48 @@ onMounted(() => {
   margin: 100px auto;
   height: 32px;
   width: 32px;
-  background-image: url("../../assets/loading.gif");
+  background-image: url('../../assets/loading.gif');
+}
+
+//评论卡片
+.gt-container .gt-comment-admin .gt-comment-content {
+  background-color: rgb(24, 24, 28);
+  border: 2px solid $baseBorderColor;
+  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.24), 0 3px 6px 0 rgba(0, 0, 0, 0.18), 0 5px 12px 4px rgba(0, 0, 0, 0.12);
+}
+.gt-container .gt-header-textarea:hover {
+  background-color: rgb(24, 24, 28);
+}
+//gittalk 编辑卡片
+.gt-container .gt-header-textarea {
+  background-color: rgb(24, 24, 28);
+  border: 2px solid $baseBorderColor;
+  box-shadow: 0 1px 2px -2px rgba(0, 0, 0, 0.24), 0 3px 6px 0 rgba(0, 0, 0, 0.18), 0 5px 12px 4px rgba(0, 0, 0, 0.12);
+}
+
+//按钮
+.gt-container .gt-btn {
+  background-color: rgba(99, 226, 183, 0.16);
+  border: none;
+  //文本
+  .gt-btn-text {
+    color: $primaryTextColor;
+  }
+  &:hover {
+    background-color: $primaryBgColorHover;
+  }
+}
+
+//预览按钮
+.gt-container .gt-btn-preview {
+  background-color: $defaultBtnBgColor;
+  border: none;
+  &:hover {
+    background-color: $defaultBtnBgColorHover;
+  }
+  //文本
+  .gt-btn-text {
+    color: $baseTextColor;
+  }
 }
 </style>

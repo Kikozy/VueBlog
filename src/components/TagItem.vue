@@ -1,34 +1,59 @@
 <script setup lang="ts">
-import { queryIssuesList } from '@api/query'
-
-
-const props = defineProps<{
-  name: string,
-  color?: string,
-  link?: string
-}>()
-
-/**
- * 
- * @param tagName tag的名字
-*/
-function handelChooseTag(tagName: string) {
-  queryIssuesList({ labels: tagName })
-}
-
+//withDefaults 作用是给defineProps绑定默认值的api
+const props = withDefaults(
+  defineProps<{
+    color?: string //颜色
+    link?: string //链接
+    size?: "small" | "medium" | "large" //大小 小/中/大
+    round?: boolean
+    strong?: boolean
+    text?: boolean
+  }>(),
+  {
+    size: "medium",
+    round: false,
+    strong: false,
+    text: false,
+  }
+)
 </script>
 <template>
-  <span class="tag-item" :style="{ color: `#${props.color}` }" @click="handelChooseTag(props.name)">
-    {{ props.name }}
+  <span
+    class="tag-item"
+    :class="{
+      'is-round': props.round,
+      'is-strong': props.strong,
+      'is-text': props.text,
+    }"
+    :style="{
+      color: props.color ? `#${props.color}` : '',
+    }"
+  >
+    <slot name="icon"></slot>
+    <slot name="default"></slot>
   </span>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 .tag-item {
   margin: 0 2px;
   box-sizing: border-box;
   display: inline-block;
-  padding: 5px;
-  background-color: rgba(151, 151, 151, 0.622);
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 3px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
+}
+.is-round {
+  border-radius: 50%;
+}
+.is-strong {
+  font-weight: bold;
+}
+.is-text {
+  background-color: transparent;
 }
 </style>

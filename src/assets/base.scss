@@ -1,10 +1,27 @@
+$baseTextColor: rgba(255, 255, 255, 0.9);
+$linkTagColor: #34a0a4;
+$baseFontFamily: 'Source Code Pro';
+$baseBorderColor: rgba(255, 255, 255, 0.09);
+$baseHoverColor: #63e2b7;
+
+$primaryBgColor: rgba(99, 226, 183, 0.2);
+$primaryBgColorHover: rgba(99, 226, 183, 0.2);
+$primaryTextColor: #63e2b7;
+
+//default 按钮
+$defaultBtnBgColor: rgba(255, 255, 255, 0.08);
+$defaultBtnBgColorHover: rgba(255, 255, 255, 0.12);
+
 div,
 blockquote,
 p,
 code {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-$linkTagColor: #34a0a4;
+* {
+  font-family: $baseFontFamily;
+  color: $baseTextColor;
+}
