@@ -1,6 +1,28 @@
+/*
+1. 主题色(大部分内容所使用的颜色)
+2. 强调色(在主题色上更进一步)
+3. 高亮色(一般用于hover)
+4. 衬托色(不太起眼的颜色)
+*/
+
+// 文字主题色
+$textThemeColor: #e1e1e1;
+// 文字辅助色
+$textSecondaryColor: #7f7f7f;
+
+// 背景主题色
+$bgThemeColor: #171514;
+// 文字辅助色
+$bgSecondaryColor: #7f7f7f;
+// 聚焦色
+$bgFocusColor: #232222;
+
+//边框辅助色
+$borderSecondaryColor: #403e3e;
+
 $baseTextColor: rgba(255, 255, 255, 0.9);
 $linkTagColor: #34a0a4;
-$baseFontFamily: 'Source Code Pro';
+$baseFontFamily: "Source Code Pro";
 $baseBorderColor: rgba(255, 255, 255, 0.09);
 $baseHoverColor: #63e2b7;
 
@@ -16,12 +38,12 @@ div,
 blockquote,
 p,
 code {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 * {
-  font-family: $baseFontFamily;
-  color: $baseTextColor;
+	font-family: $baseFontFamily;
+	color: $baseTextColor;
 }
