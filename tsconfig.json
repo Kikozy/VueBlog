@@ -1,48 +1,32 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "baseUrl": ".",
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
-    "types": [
-      "node"
-    ],
-    "skipLibCheck": true,
-    "paths": {
-      "@util/*": [
-        "src/utils/*"
-      ],
-      "@api/*": [
-        "src/api/*"
-      ],
-      "@comp/*": [
-        "src/components/*"
-      ],
-      "@view/*": [
-        "src/views/*"
-      ],
-    }
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue"
-  ],
-  "references": [
-    {
-      "path": "./tsconfig.node.json"
-    }
-  ]
+	"compilerOptions": {
+		"target": "ESNext",
+		"useDefineForClassFields": true,
+		"module": "ESNext",
+		"moduleResolution": "Node",
+		"strict": true,
+		"jsx": "preserve",
+		"sourceMap": true,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"baseUrl": ".",
+		"lib": ["ESNext", "DOM"],
+		"types": ["node"],
+		"skipLibCheck": true,
+		"paths": {
+			"@utils/*": ["src/utils/*"],
+			"@api/*": ["src/api/*"],
+			"@comp/*": ["src/components/*"],
+			"@view/*": ["src/views/*"],
+			"@assets/*": ["src/assets/*"],
+			"@store/*": ["src/store/*"]
+		}
+	},
+	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+	"references": [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
 }

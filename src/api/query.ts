@@ -1,4 +1,4 @@
-import http from "@util/http"
+import http from "@utils/http"
 
 const repository = "TestBlog"
 const userName = "Kikozy"
@@ -39,6 +39,12 @@ export interface ArticleDetailsStruc {
 	number: number //文章编号
 }
 
+export interface TagStruc {
+	id: number
+	color: string
+	name: string
+}
+
 //~ 查询issues列表
 export async function queryIssuesList(params?: issuesSearchReq): Promise<Array<ArticleCardStruc>> {
 	return await http.get(`/${blog}/issues`, { params })
@@ -50,7 +56,7 @@ export async function queryIssuesContent(articleId: string): Promise<Article> {
 }
 
 //~ 查询文档标签
-export async function queryDocTags() {
+export async function queryDocTags(): Promise<Array<TagStruc>> {
 	return await http.get(`/${blog}/labels?page=1&per_page=100`)
 }
 //~ 查询文档分类

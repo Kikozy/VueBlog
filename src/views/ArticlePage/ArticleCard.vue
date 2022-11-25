@@ -30,32 +30,30 @@ onMounted(() => {
 </script>
 
 <template>
-	<transition name="article-card">
-		<div class="article-card" v-if="cardShow">
-			<div class="article-top-bar">
-				<span class="article-time">2020,10月13日</span>/ <span>1553次浏览</span>/ <span>Vue</span>/
-			</div>
-			<!-- 文章标题 -->
-			<p class="article-title" @click="hendleOpenArticle(props.data.content.number)">
-				{{ props.data.content.title }}
-			</p>
-			<div class="article-desc">
-				<p class="desc-item" v-for="descItem of props.data.desc">{{ descItem }}</p>
-			</div>
-			<!-- 文章信息 -->
-			<div class="article-info">
-				<!-- 文章标签 -->
-				<div class="article-tags">
-					<div class="tag-item">测试1</div>
-					<div class="tag-item">测试2</div>
-					<div class="tag-item">测试3</div>
-				</div>
-				<div class="article-edit-time">
-					最后修改: {{ new Date(props.data.content.updated_at).toLocaleDateString() }}
-				</div>
-			</div>
+	<!-- <transition name="article-card"> -->
+	<div class="article-card" v-if="cardShow">
+		<div class="article-top-bar">
+			<span class="article-time">2020,10月13日</span>/ <span>1553次浏览</span>/ <span>Vue</span>/
 		</div>
-	</transition>
+		<!-- 文章标题 -->
+		<p class="article-title" @click="hendleOpenArticle(props.data.content.number)">
+			{{ props.data.content.title }}
+		</p>
+		<div class="article-desc">
+			<p class="desc-item" v-for="descItem of props.data.desc">{{ descItem }}</p>
+		</div>
+		<!-- 文章信息 -->
+		<div class="article-info">
+			<!-- 文章标签 -->
+			<div class="article-tags">
+				<div class="tag-item">测试1</div>
+				<div class="tag-item">测试2</div>
+				<div class="tag-item">测试3</div>
+			</div>
+			<div class="article-edit-time">最后修改: {{ new Date(props.data.content.updated_at).toLocaleDateString() }}</div>
+		</div>
+	</div>
+	<!-- </transition> -->
 </template>
 
 <style lang="scss" scoped>
@@ -132,7 +130,7 @@ onMounted(() => {
 }
 
 .article-card-enter-active {
-	animation: cardIn 1.5s ease;
+	animation: cardIn 1.5s ease 0s 1;
 }
 
 @keyframes cardIn {

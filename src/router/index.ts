@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router"
+import { useCompState } from "@store/index"
 
-const Home = () => import("@view/HomePage/HomePage.vue")
+// const compState = useCompState(pinia)
+const Post = () => import("@view/Post/Post.vue")
 const Article = () => import("@view/ArticlePage/ArticlePage.vue")
 const ArticleDetails = () => import("@view/ArticleDetails/ArticleDetails.vue")
 const About = () => import("@view/AboutPage/AboutPage.vue")
@@ -8,8 +10,8 @@ const About = () => import("@view/AboutPage/AboutPage.vue")
 const routes = [
 	{
 		path: "/",
-		name: "Home",
-		component: Home,
+		name: "Post",
+		component: Post,
 		children: [
 			{
 				path: "",
@@ -36,8 +38,10 @@ const router = createRouter({
 	routes,
 })
 router.beforeEach((to, from, next) => {
+	const compState = useCompState()
 	console.log("to", to)
 	console.log("from", from)
+	compState.$state.loading = true
 	if (to.name === "ArticleDetails") {
 		console.log("是的")
 		if (!to.params.id) {
