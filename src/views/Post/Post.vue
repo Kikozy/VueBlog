@@ -6,6 +6,7 @@ import { extractIntro } from "@utils/regEx"
 import { queryPostCardList } from "@api/interface/post"
 import { data } from "../../../test"
 import { useCompState } from "@store/index"
+import PostCard from "./PostCard.vue"
 
 const compState = useCompState()
 const postState = reactive({
@@ -15,25 +16,26 @@ const postState = reactive({
 	tagList: <Array<TagStruc>>[],
 })
 
-onMounted(() => {
+onMounted(async () => {
 	// postTags.push(...(await queryDocTags()))
 	// console.log(await queryDocSort())
 	animationLoad([getPostCard], 1000)
+	// await getPostCard()
+	// compState.$state.loading = false
 })
 // 动画载入
-async function animationLoad(funGroup: Array<Function>, delay: 1000) {
-	for (const funObj of funGroup) {
-		if (funObj.constructor.name === "AsyncFunction") {
-			//执行异步方法
-			await funObj()
+async function animationLoad(funGroup: Array<Function>, delay: number = 1000) {
+	for (const funItem of funGroup) {
+		if (funItem.constructor.name === "AsyncFunction") {
+			await funItem()
 		} else {
-			//执行同步方法
-			funObj()
+			funItem()
 		}
 	}
 	setTimeout(() => {
 		compState.$state.loading = false
-	}, delay)
+		console.log(compState.$state.loading)
+	}, 1000)
 }
 
 async function getPostCard(params?: PostSearchParams) {
@@ -52,7 +54,7 @@ async function getPostCard(params?: PostSearchParams) {
 		<!-- 列表 -->
 		<main class="post-content">
 			<TransitionGroup @before-enter="onContentBeforeEnter" @enter="onContentEnter">
-				<article-card
+				<post-card
 					v-for="(cardItem, index) of postState.postList"
 					:data="cardItem"
 					:key="cardItem.content.number"
