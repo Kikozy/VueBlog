@@ -10,7 +10,7 @@ const compState = useCompState()
 <template>
 	<div class="container">
 		<div class="container-core">
-			<Transition
+			<!-- <Transition
 				@before-enter="onCompBeforeEnter"
 				@enter="onCompEnter"
 				@before-leave="onCompBeforeLeave"
@@ -18,7 +18,7 @@ const compState = useCompState()
 				:css="false"
 			>
 				<Loading v-if="compState.$state.loading"/>
-			</Transition>
+			</Transition> -->
 			<router-view></router-view>
 		</div>
 	</div>

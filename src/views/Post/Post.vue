@@ -1,70 +1,62 @@
 <script setup lang="ts">
-import { onMounted, reactive } from "vue"
+import { onMounted, reactive, ref, VueElement } from "vue"
 import { PostSearchParams, PostCardStruc, TagStruc } from "@api/structure/post"
 import { onContentBeforeEnter, onContentEnter } from "@utils/animation"
 import { extractIntro } from "@utils/regEx"
 import { queryPostCardList } from "@api/interface/post"
 import { data } from "../../../test"
 import { useCompState } from "@store/index"
-import PostCard from "./PostCard.vue"
+import PostDetails from "./PostDetails.vue"
+import PostList from "./PostList.vue"
+import Loading from "@comp/Loading.vue"
+import { onBeforeRouteUpdate, useRoute } from "vue-router"
+import { onCompLeave, onCompBeforeEnter, onCompEnter, onCompBeforeLeave } from "@utils/animation"
 
+const route = useRoute()
 const compState = useCompState()
-const postState = reactive({
-	// 文章列表
-	postList: <Array<PostCardStruc>>[],
-	// 标签列表
-	tagList: <Array<TagStruc>>[],
-})
-
-onMounted(async () => {
-	// postTags.push(...(await queryDocTags()))
-	// console.log(await queryDocSort())
-	animationLoad([getPostCard], 1000)
-	// await getPostCard()
-	// compState.$state.loading = false
-})
-// 动画载入
-async function animationLoad(funGroup: Array<Function>, delay: number = 1000) {
-	for (const funItem of funGroup) {
-		if (funItem.constructor.name === "AsyncFunction") {
-			await funItem()
-		} else {
-			funItem()
-		}
-	}
-	setTimeout(() => {
-		compState.$state.loading = false
-		console.log(compState.$state.loading)
-	}, 1000)
+// 组件组
+const compoGroup: any = {
+	PostDetails,
+	PostList,
 }
+// 当前要展示的组件
+const contentComponent = ref("")
 
-async function getPostCard(params?: PostSearchParams) {
-	// let resData = await queryPostCardList()
-	const issuesList = data
-	postState.postList = issuesList.map((element: any, index: number) => {
-		return {
-			desc: [...extractIntro(element.body)],
-			content: element,
-		}
-	})
+onMounted(() => {
+	contentComponent.value = String(route.name)
+	console.log("当前路由", contentComponent.value)
+	compState.$state.loading = true
+})
+
+// 监听路由跳转
+onBeforeRouteUpdate((to) => {
+	contentComponent.value = String(to.name)
+})
+
+//返回当前选中的组件
+function getNowComp(): VueElement {
+	return compoGroup[contentComponent.value]
 }
 </script>
 <template>
 	<div class="page-post">
-		<!-- 列表 -->
 		<main class="post-content">
-			<TransitionGroup @before-enter="onContentBeforeEnter" @enter="onContentEnter">
-				<post-card
-					v-for="(cardItem, index) of postState.postList"
-					:data="cardItem"
-					:key="cardItem.content.number"
-					:data-index="index"
-				/>
-			</TransitionGroup>
+			<Transition
+				@before-enter="onCompBeforeEnter"
+				@enter="onCompEnter"
+				@before-leave="onCompBeforeLeave"
+				@leave="onCompLeave"
+				:css="false"
+			>
+				<Loading v-if="compState.$state.loading" />
+			</Transition>
+			<component :is="getNowComp()" />
 		</main>
 		<!-- 功能 -->
 		<aside class="aside-panel">
-			<div class="panel-filter panel-sorts"></div>
+			<div class="panel-filter panel-sorts">
+				<input type="text" placeholder="233" :style="{ color: 'red' }" />
+			</div>
 			<div class="panel-filter panel-tags">
 				<!-- <span class="tag-item" v-for="item of postTags" :key="item.id">{{ item.name }}</span> -->
 			</div>

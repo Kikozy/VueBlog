@@ -3,23 +3,33 @@ import { useCompState } from "@store/index"
 
 // const compState = useCompState(pinia)
 const Post = () => import("@view/Post/Post.vue")
+const PostList = () => import("@view/Post/PostList.vue")
 const PostDetails = () => import("@view/Post/PostDetails.vue")
 const About = () => import("@view/AboutPage/AboutPage.vue")
 
 const routes = [
 	{
 		path: "/",
-		name: "Post",
-		component: Post,
+		name: "Root",
+		redirect: "Post",
 		children: [
 			{
-				name: "PostDetails",
-				path: "/Post/PostDetails/:id?",
-				component: PostDetails,
-			},
-			{
-				path: "/Post/About",
-				component: About,
+				path: "Post",
+				name: "Post",
+				redirect: "Post/List",
+				component: Post,
+				children: [
+					{
+						path: "List",
+						name: "PostList",
+						component: PostList,
+					},
+					{
+						path: "Details/:id",
+						name: "PostDetails",
+						component: PostDetails,
+					},
+				],
 			},
 		],
 	},

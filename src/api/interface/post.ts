@@ -11,8 +11,8 @@ export async function queryPostCardList(params?: PostSearchParams): Promise<Arra
 }
 
 //? 查询博文详情内容
-export async function queryPostDetail(articleId: string): Promise<PostDetailStruc> {
-	return await http.get(`/Kikozy/TestBlog/issues/${articleId}`)
+export async function queryPostDetail(postId: string): Promise<PostDetailStruc> {
+	return await http.get(`/Kikozy/TestBlog/issues/${postId}`)
 }
 
 // //~ 查询文档标签

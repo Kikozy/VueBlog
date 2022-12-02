@@ -11,6 +11,7 @@ const props = defineProps<{
 //打开详情
 function hendleOpenArticle(cardNum: number) {
 	router.push({ name: "PostDetails", params: { id: cardNum } })
+	// router.push({ path: `/Post/Details/${cardNum}` })
 }
 
 onMounted(() => {})

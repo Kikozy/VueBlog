@@ -34,7 +34,7 @@ export function onCompEnter(el: HTMLElement, done: Function) {
 // 当组件退出之前动画
 export function onCompBeforeEnter(el: HTMLElement) {
 	el.style.opacity = "0"
-	el.style.transition = `opacity 2s ease`
+	el.style.transition = `opacity 0.5s ease`
 }
 // 当组件退出时的动画
 export function onCompBeforeLeave(el: HTMLElement) {
@@ -46,7 +46,5 @@ export function onCompLeave(el: HTMLElement, done: Function) {
 	el.style.opacity = "0"
 	setTimeout(() => {
 		done()
-		z-
-		index0
 	}, 2000)
 }

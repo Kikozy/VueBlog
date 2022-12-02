@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { onMounted, reactive, render, setTransitionHooks, shallowRef } from "vue"
+import { onMounted, reactive, shallowRef, watch, nextTick } from "vue"
 import { useCompState } from "@store/index"
-import { useRoute } from "vue-router"
+import { onBeforeRouteUpdate, useRoute } from "vue-router"
 import { marked } from "marked"
 import lightCode from "highlight.js"
 
-import { queryIssuesContent } from "@api/query"
+import { queryPostDetail } from "@api/interface/post"
 import "gitalk/dist/gitalk.css"
 import Gitalk from "gitalk"
 
@@ -14,19 +14,34 @@ const route = useRoute()
 
 const postState = reactive({
 	title: "", //文章标题
-	pid: route.params.id as string, //文章ID
+	pid: "", //文章ID
 	body: "", //文章内容
 	imgCount: 0, //图片计数
 })
-console.log("奇怪了")
-const markdownToHtml = shallowRef("")
-queryIssuesContent(postState.pid).then((res) => {
-	postState.body = res.body
-	postState.title = res.title
-	markdownToHtml.value = marked(res.body)
+
+watch(route, (newRoute, oldValue) => {
+	let pid = newRoute.params?.id
+	console.log("路由watch", pid)
+	postState.pid = String(pid)
+	getPostDetails(String(pid))
+	initGitalk("gitalk-container")
+})
+
+async function getPostDetails(pid: string) {
+	let postDetails = await queryPostDetail(pid)
+	postState.body = postDetails.body
+	postState.title = postDetails.title
+	markdownToHtml.value = marked(postDetails.body)
 	console.log("渲染结束？")
-	compState.$state.loading = false
-	console.error(postState.title)
+	setTimeout(() => {
+		compState.$state.loading = false
+	}, 3000)
+}
+/**
+ * @function 初始化Gitalk评论功能函数
+ * @param domName 节点名称
+ */
+function initGitalk(domName: string) {
 	const gitalk = new Gitalk({
 		clientID: "8b668e751557fa12e756",
 		clientSecret: "d53f9164f3903a88da2a59423ab4a5115826da22",
@@ -38,9 +53,10 @@ queryIssuesContent(postState.pid).then((res) => {
 		title: postState.title,
 		labels: ["评论"],
 	})
-	gitalk.render("gitalk-container")
-})
+	gitalk.render(domName)
+}
 
+const markdownToHtml = shallowRef("")
 //创建MD渲染器
 const rendererMD = new marked.Renderer()
 //图片样式
@@ -95,10 +111,6 @@ marked.setOptions({
 	smartLists: true,
 	smartypants: true, //使用更为时髦的标点，比如在引用语法中加入破折号。
 	highlight: (code) => lightCode.highlightAuto(code).value,
-})
-
-onMounted(() => {
-	console.log(document.querySelectorAll(".code-area-md span"))
 })
 </script>
 
