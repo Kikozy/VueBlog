@@ -6,9 +6,8 @@ import { extractIntro } from "@utils/regEx"
 import { queryPostCardList } from "@api/interface/post"
 import { data } from "../../../test"
 import { useCompState } from "@store/index"
-import PostDetails from "./PostDetails.vue"
+import PostDetail from "./PostDetail.vue"
 import PostList from "./PostList.vue"
-import Loading from "@comp/Loading.vue"
 import { onBeforeRouteUpdate, useRoute } from "vue-router"
 import { onCompLeave, onCompBeforeEnter, onCompEnter, onCompBeforeLeave } from "@utils/animation"
 
@@ -16,7 +15,7 @@ const route = useRoute()
 const compState = useCompState()
 // 组件组
 const compoGroup: any = {
-  PostDetails,
+  PostDetail,
   PostList,
 }
 // 当前要展示的组件
@@ -24,16 +23,15 @@ const contentComponent = ref("")
 
 onMounted(() => {
   contentComponent.value = String(route.name)
-  console.log("当前路由", contentComponent.value)
-  compState.$state.loading = true
 })
 
 // 监听路由跳转
 onBeforeRouteUpdate((to) => {
+  console.log("跳转地址", to.name)
   contentComponent.value = String(to.name)
 })
 
-//返回当前选中的组件
+//返回当前选中的组件(实现动态组件)
 function getNowComp(): VueElement {
   return compoGroup[contentComponent.value]
 }
@@ -41,7 +39,7 @@ function getNowComp(): VueElement {
 <template>
   <div class="page-list">
     <main class="post-content">
-      <Transition
+      <!-- <Transition
         @before-enter="onCompBeforeEnter"
         @enter="onCompEnter"
         @before-leave="onCompBeforeLeave"
@@ -49,7 +47,7 @@ function getNowComp(): VueElement {
         :css="false"
       >
         <Loading v-if="compState.$state.loading" />
-      </Transition>
+      </Transition> -->
       <component :is="getNowComp()" />
     </main>
   </div>
