@@ -25,6 +25,7 @@ export default defineConfig({
 			"@view": resolve(__dirname, "./src/views"),
 			"@assets": resolve(__dirname, "./src/assets"),
 			"@store": resolve(__dirname, "./src/store"),
+			"@icon": resolve(__dirname, "./src/assets/icon"),
 		},
 	},
 })

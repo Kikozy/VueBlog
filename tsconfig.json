@@ -20,7 +20,8 @@
 			"@comp/*": ["src/components/*"],
 			"@view/*": ["src/views/*"],
 			"@assets/*": ["src/assets/*"],
-			"@store/*": ["src/store/*"]
+			"@store/*": ["src/store/*"],
+			"@icon/*": ["src/assets/icon/*"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],

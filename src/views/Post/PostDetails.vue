@@ -127,6 +127,10 @@ marked.setOptions({
 <style lang="scss">
 @import "highlight.js/styles/atom-one-dark.css";
 
+.post-details {
+	width: 100%;
+}
+
 body {
 	background-color: rgb(24, 24, 28);
 }
